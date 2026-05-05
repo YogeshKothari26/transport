@@ -32,3 +32,20 @@ configurations {
 artifacts {
   tests jarTests
 }
+
+// Hive 2.3.9's ObjectInspectorFactory uses reflection on java.* internals that JDK 17 modularizes.
+// Open the modules it touches when this subproject's tests run on JDK 17+. Limited to this subproject
+// because no other transport subproject loads Hive 2.3.9 classes in its tests.
+test {
+  if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
+    jvmArgs '--add-opens=java.base/java.lang=ALL-UNNAMED',
+            '--add-opens=java.base/java.lang.invoke=ALL-UNNAMED',
+            '--add-opens=java.base/java.io=ALL-UNNAMED',
+            '--add-opens=java.base/java.net=ALL-UNNAMED',
+            '--add-opens=java.base/java.nio=ALL-UNNAMED',
+            '--add-opens=java.base/java.util=ALL-UNNAMED',
+            '--add-opens=java.base/java.util.concurrent=ALL-UNNAMED',
+            '--add-opens=java.base/sun.nio.ch=ALL-UNNAMED',
+            '--add-opens=java.base/sun.security.action=ALL-UNNAMED'
+  }
+}

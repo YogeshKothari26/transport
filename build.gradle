@@ -100,19 +100,6 @@ subprojects {
 
     test {
       useTestNG()
-      // Hive 2.3.9's ObjectInspectorFactory and DataNucleus use reflection that fails under JDK 17's
-      // strong module encapsulation. Open the modules they touch when this build runs on JDK 17+.
-      if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
-        jvmArgs '--add-opens=java.base/java.lang=ALL-UNNAMED',
-                '--add-opens=java.base/java.lang.invoke=ALL-UNNAMED',
-                '--add-opens=java.base/java.io=ALL-UNNAMED',
-                '--add-opens=java.base/java.net=ALL-UNNAMED',
-                '--add-opens=java.base/java.nio=ALL-UNNAMED',
-                '--add-opens=java.base/java.util=ALL-UNNAMED',
-                '--add-opens=java.base/java.util.concurrent=ALL-UNNAMED',
-                '--add-opens=java.base/sun.nio.ch=ALL-UNNAMED',
-                '--add-opens=java.base/sun.security.action=ALL-UNNAMED'
-      }
     }
 
     checkstyle {
