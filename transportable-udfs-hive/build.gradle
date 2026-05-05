@@ -5,14 +5,16 @@ dependencies {
   implementation project(':transportable-udfs-api')
   implementation project(':transportable-udfs-utils')
   implementation 'org.apache.hadoop:hadoop-common:2.7.4'
-  compileOnly('org.apache.hive:hive-exec:1.2.2') {
+  compileOnly('org.apache.hive:hive-exec:2.3.9') {
     exclude group: 'org.apache.avro'
     exclude group: 'org.apache.calcite'
+    exclude group: 'org.pentaho'
   }
   testImplementation project(path: ':transportable-udfs-type-system', configuration: 'tests')
-  testImplementation('org.apache.hive:hive-exec:1.2.2') {
+  testImplementation('org.apache.hive:hive-exec:2.3.9') {
     exclude group: 'org.apache.avro'
     exclude group: 'org.apache.calcite'
+    exclude group: 'org.pentaho'
   }
 }
 

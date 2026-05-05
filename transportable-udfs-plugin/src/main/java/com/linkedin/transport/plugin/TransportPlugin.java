@@ -204,6 +204,12 @@ public class TransportPlugin implements Plugin<Project> {
             task.getJavaCompiler().set(javaToolchains.compilerFor(toolChainSpec -> {
               toolChainSpec.getLanguageVersion().set(platform.getJavaLanguageVersion());
             }));
+            // For Hive/Spark: pin bytecode to Java 8 (release=8) so UDF jars stay runnable on grid
+            // runtimes that still execute on Java 8. Trino is excluded because Trino 406+ requires
+            // Java 17 bytecode (uses sealed classes, records, etc.).
+            if (!"trino".equals(platform.getName())) {
+              task.getOptions().getRelease().set(8);
+            }
           });
     }
 
@@ -278,6 +284,21 @@ public class TransportPlugin implements Plugin<Project> {
       task.getJavaLauncher().set(javaToolchains.launcherFor(toolChainSpec -> {
         toolChainSpec.getLanguageVersion().set(platform.getJavaLanguageVersion());
       }));
+
+      // When the test JVM is JDK 17 (e.g. hiveTest after T2), Hive 2.3.9's embedded HiveServer2 +
+      // DataNucleus + Derby need extra --add-opens to access internals that JDK 17 modularizes.
+      if (platform.getJavaLanguageVersion().asInt() >= 17 && !"trino".equals(platform.getName())) {
+        task.jvmArgs(
+            "--add-opens=java.base/java.lang=ALL-UNNAMED",
+            "--add-opens=java.base/java.lang.invoke=ALL-UNNAMED",
+            "--add-opens=java.base/java.io=ALL-UNNAMED",
+            "--add-opens=java.base/java.net=ALL-UNNAMED",
+            "--add-opens=java.base/java.nio=ALL-UNNAMED",
+            "--add-opens=java.base/java.util=ALL-UNNAMED",
+            "--add-opens=java.base/java.util.concurrent=ALL-UNNAMED",
+            "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED",
+            "--add-opens=java.base/sun.security.action=ALL-UNNAMED");
+      }
     });
   }
 
