@@ -14,6 +14,8 @@ dependencies {
   implementation ('org.apache.hive:hive-service:2.3.9') {
     exclude group: 'org.apache.hive', module: 'hive-exec'
     exclude group: 'org.pentaho'
+    exclude group: 'org.apache.twill'
+    exclude group: 'co.cask.tephra'
   }
   runtimeOnly 'org.apache.hadoop:hadoop-common:2.7.4'
   runtimeOnly 'org.apache.hadoop:hadoop-mapreduce-client-core:2.7.4'
