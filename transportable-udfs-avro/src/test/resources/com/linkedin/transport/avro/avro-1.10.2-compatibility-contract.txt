@@ -1,0 +1,23 @@
+====
+    Copyright 2026 LinkedIn Corporation. All rights reserved.
+    Licensed under the BSD-2 Clause license.
+    See LICENSE in the project root for license information.
+====
+
+schema.canonical={"name":"null","type":"record","fields":[{"name":"name","type":"string"},{"name":"payload","type":"bytes"},{"name":"enabled","type":"boolean"},{"name":"scores","type":{"type":"array","items":"long"}},{"name":"attributes","type":{"type":"map","values":"string"}}]}
+schema.fingerprint64=5334874109705233949
+enum.schema.canonical={"name":"com.linkedin.transport.avro.contract.Status","type":"enum","symbols":["ACTIVE","INACTIVE"]}
+enum.schema.fingerprint64=8263138605514868400
+struct.name=member
+struct.payload=00017fff
+struct.enabled=true
+struct.scores=[7, 9]
+struct.attributes=[alpha=one, beta=two]
+string.java=member
+string.utf8=member
+enum.java=ACTIVE
+enum.symbol=ACTIVE
+union.value=42
+union.null=null
+union.reversed.value=42
+union.reversed.null=null
