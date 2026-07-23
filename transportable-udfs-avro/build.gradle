@@ -3,7 +3,7 @@ apply plugin: 'java'
 dependencies {
   implementation project(':transportable-udfs-api')
   implementation project(':transportable-udfs-type-system')
-  implementation('org.apache.avro:avro:1.10.2')
+  implementation('org.apache.avro:avro:1.11.4')
   testImplementation project(path: ':transportable-udfs-type-system', configuration: 'tests')
 }
 
